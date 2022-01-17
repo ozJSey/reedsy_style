@@ -1,0 +1,288 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Source+Sans+Pro:wght@400;600&display=swap');
+
+$highlight: #E4C714;
+$light-gray: #CCCCCC;
+$dark-gray: #49494B;
+$background: #FAF9F4;
+$white: #FFFFFD;
+$space-xxs: .1rem;
+$space-xs: .25rem;
+$space-s: .5rem;
+$space-m: 1rem;
+$space-l: 2rem;
+$space-xl: 3rem;
+$space-xxl: 6rem;
+$text-color: #252421;
+
+%default-border-radius {
+    border-radius: $space-s;
+}
+%image-border-radius {
+    border-radius: $space-m;
+}
+%default-box-shadow {
+    box-shadow: -1px 0px 17px 5px rgba(140,140,140,0.56);
+}
+%highlighted {
+    color: $white;
+    background-color: $highlight;
+}
+%absolute-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.container {
+    margin: $space-m auto;
+    max-width: 1200px;
+}
+@mixin media-support($size) {
+    @media only screen and (max-width: #{$size}px) {
+        @content;
+    }
+} 
+
+@mixin font ($type) {
+    // font details
+    margin: $space-m 0;
+    @if $type == 'title' {
+        font-family: 'Source Sans Pro', sans-serif;
+        font-size: $space-xl;
+        margin: 0;
+    } @else if $type == 'caption' {
+        font-family: 'Source Sans Pro', sans-serif;
+        color: $dark-gray;
+        font-size: $space-m;
+        margin: 0 0 $space-l;
+    } @else {
+        font-family: 'Inter', sans-serif;
+        color: $text-color;
+        font-size: $space-m;
+        line-height: 1.5;
+    }
+}
+
+@mixin transition($prop) {
+    transition: $prop .3s ease-in-out;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: $background;
+    margin: 0;
+    padding: 0;
+    a {
+        cursor: pointer;
+    }
+    p {
+        @include font(null);
+    }
+    .top-actions {
+        z-index: 1;
+        .container{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 $space-l;
+            .top-menu {
+                width: unset;
+            }
+            @include media-support(768) {
+                &, .top-menu {
+                    justify-content: center;
+                    width: 100%;
+                    padding: 0;
+                };
+            }
+            
+            .top-logo {
+                background-color: $light-gray;
+                padding: $space-s $space-xxl;
+                @extend %default-border-radius;
+            }
+            ul {
+                list-style: none;
+                display: flex;
+                flex-direction: row;
+                padding-inline-start: 0;
+                justify-content: space-around;
+                width: 100%;
+                li {
+                    a {
+                        display: block;
+                        padding: $space-s $space-l;
+                        @include transition(background);
+                        @extend %default-border-radius;
+                        &:hover {
+                            @extend %highlighted;
+                        }
+                        @include media-support(768) {
+                            padding: $space-s;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .main {
+        padding-bottom: $space-xxl;
+        .container {
+            @extend %default-box-shadow;
+            @extend %image-border-radius;
+            background-color: $white;
+            h1 {
+                @include font(title);
+                padding: $space-l;
+                margin: 0;
+                font-weight: 500;
+            }
+            .featured-book {
+                position: relative;
+                display: flex;
+                flex-wrap: nowrap;
+                background-color: $background;
+                padding: $space-l;
+                @include media-support(768) {
+                    flex-wrap: wrap;
+                    padding: 0 $space-m;
+                }
+                .recommended {
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    padding: $space-s;
+                    border-top-right-radius: 0;
+                    border-bottom-left-radius: $space-m;
+                    @extend %highlighted;
+                    @include media-support(768) {
+                        border-top-right-radius: $space-m;
+                        right: $space-m;
+                    }
+                }
+                img {
+                    @extend %image-border-radius;
+                    @extend %default-box-shadow;
+                    max-width: 100%;
+                    object-fit: contain;
+                }
+            }
+            .book-info {
+                padding-left: $space-m;
+                @include media-support(768) {
+                    padding-left :0;
+                    width: 100%;
+                }
+                .title {
+                    @include font(title);
+                }
+                .author {
+                    @include font(caption);
+                }
+                .synopsis {
+                    p {
+                        @include font(text);
+                    }
+                }
+            }
+            .top-voted {
+                padding: $space-l;
+                @include media-support(768) {
+                    padding: $space-m;
+                }
+                
+                .books-list {
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin-top: $space-m;
+                    .book {
+                        position: relative;
+                        flex: 1;
+                        background-color: $background;
+                        @extend %default-border-radius;
+                        @include media-support(768) {
+                            flex: 0 0 100%;
+                            max-width: 100%;
+                            margin: $space-m 0;
+                        }
+                        &:nth-child(2) {
+                            margin: 0 $space-l;
+                            @include media-support(768) {
+                                margin: 0;
+                            }
+                        }
+                        .position {
+                            position: absolute;
+                            right: $space-m;
+                            top: $space-s;
+                            color: $highlight;
+                            span {
+                                display: flex;
+                                align-items: center;
+                                padding: $space-s;
+                                &::after{
+                                    content: '';
+                                    @extend %absolute-center;
+                                    border-radius: 50%;
+                                    width: calc($space-l - $space-xs);
+                                    height: calc($space-l - $space-xs);
+                                    border: $space-xxs solid $highlight;
+                                }
+                            }
+                        }
+                        img {
+                            display: block;
+                            margin: $space-m auto;
+                            height: $space-xxl * 2;
+                            @extend %default-box-shadow;
+                            @extend %default-border-radius;
+                            object-fit: contain;
+                            max-width: 100%;
+                        }
+                        .book-info {
+                            padding: $space-m;
+                            .title {
+                                font-size: $space-m;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        display: flex;
+        background-color: $text-color;
+        justify-content: center;
+        align-items: center;
+        @include media-support(768) {
+            padding: $space-m 0;
+        }
+        ul {
+            margin: 0;
+            list-style: none;
+            padding-inline-start: 0;
+            li {
+                float: right;
+                margin: 0 $space-l;
+                @include media-support(768) {
+                    margin: 0 $space-s;
+                }
+                a {
+                    color: $white;
+                    &:hover {
+                        color: $light-gray;
+                    }
+                }
+            }
+        }
+    }
+}
